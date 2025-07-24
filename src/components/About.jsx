@@ -1,24 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import "../index.css"
-import { stringify } from 'postcss'
-import  {translateY,scrollY} from 'react';
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+//import { stringify } from 'postcss'
+//import  {translateY,scrollY} from 'react';
+//import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 
 const About = () => {
-
- 
-
-const containerStyle = {
-  width: "100%",
-  height: "450px",
-};
-
-const center = {
-  lat: 17.4474,
-  lng: 78.3821,
-};
 
 const faqs = [
   {
