@@ -359,7 +359,7 @@ const handleSwipe2 = () => {
   }
 };
 
-const [isOpen, setIsOpen] = useState(false);
+//const [isOpen, setIsOpen] = useState(false);
 
 
 const handlePrev = () => {
@@ -396,9 +396,9 @@ useEffect(() => {
 }, [isTransitioning, current, carouselTestimonials.length]);
 
 
-  const goToSlide = (index) => {
-    setCurrent(index);
-  };
+  //const goToSlide = (index) => {
+    //setCurrent(index);
+  //};
 
 
    const [offsetY, setOffsetY] = useState(0);
