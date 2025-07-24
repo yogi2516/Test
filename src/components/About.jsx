@@ -231,35 +231,36 @@ useEffect(() => {
 
 useEffect(() => {
   if (!isTransitioning) return;
+  const currentSlider = sliderRef.current;
   const handle = () => {
     setIsTransitioning(false);
     // Instantly jump to real slide if at the cloned ends, but do NOT animate the jump
     if (current === 0) {
-      if (sliderRef.current) {
-        sliderRef.current.style.transition = 'none';
-        sliderRef.current.style.transform = `translateX(calc(50% - ${(carouselTestimonials.length - 2) * 320 + 160}px))`;
+      if (currentSlider) {
+        currentSlider.style.transition = 'none';
+        currentSlider.style.transform = `translateX(calc(50% - ${(carouselTestimonials.length - 2) * 320 + 160}px))`;
         setTimeout(() => {
           setCurrent(carouselTestimonials.length - 2);
-          sliderRef.current.style.transition = '';
+         currentSlider.style.transition = '';
         }, 20); // let browser apply the transform before resetting transition
       } else {
         setCurrent(carouselTestimonials.length - 2);
       }
     } else if (current === carouselTestimonials.length - 1) {
-      if (sliderRef.current) {
-        sliderRef.current.style.transition = 'none';
-        sliderRef.current.style.transform = `translateX(calc(50% - ${1 * 320 + 160}px))`;
+      if (currentSlider) {
+        currentSlider.style.transition = 'none';
+       currentSlider.style.transform = `translateX(calc(50% - ${1 * 320 + 160}px))`;
         setTimeout(() => {
           setCurrent(1);
-          sliderRef.current.style.transition = '';
+         currentSlider.style.transition = '';
         }, 20);
       } else {
         setCurrent(1);
       }
     }
   };
-  sliderRef.current?.addEventListener('transitionend', handle, { once: true });
-  return () => sliderRef.current?.removeEventListener('transitionend', handle);
+  currentSlider?.addEventListener('transitionend', handle, { once: true });
+  return () => currentSlider?.removeEventListener('transitionend', handle);
 }, [isTransitioning, current, carouselTestimonials.length]);
 
 
