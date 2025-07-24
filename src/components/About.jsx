@@ -374,25 +374,27 @@ const handleNext = () => {
 };
 useEffect(() => {
   if (!isTransitioning) return;
+    const currentSlider = sliderRef.current;
   const handle = () => {
     setIsTransitioning(false);
+   
     // Instantly jump to real slide if at the cloned ends
     if (current === 0) {
       setCurrent(carouselTestimonials.length - 2);
-      sliderRef.current.style.transition = 'none';
-      sliderRef.current.style.transform = `translateX(calc(50% - ${(carouselTestimonials.length - 2) * 320 + 160}px))`;
-      void sliderRef.current.offsetWidth;
-      sliderRef.current.style.transition = '';
+      currentSlider.style.transition = 'none';
+      currentSlider.style.transform = `translateX(calc(50% - ${(carouselTestimonials.length - 2) * 320 + 160}px))`;
+      void currentSlider.offsetWidth;
+      currentSlider.style.transition = '';
     } else if (current === carouselTestimonials.length - 1) {
       setCurrent(1);
-      sliderRef.current.style.transition = 'none';
-      sliderRef.current.style.transform = `translateX(calc(50% - ${1 * 320 + 160}px))`;
-      void sliderRef.current.offsetWidth;
-      sliderRef.current.style.transition = '';
+      currentSlider.style.transition = 'none';
+      currentSlider.style.transform = `translateX(calc(50% - ${1 * 320 + 160}px))`;
+      void currentSlider.offsetWidth;
+      currentSlider.style.transition = '';
     }
   };
-  sliderRef.current.addEventListener('transitionend', handle, { once: true });
-  return () => sliderRef.current && sliderRef.current.removeEventListener('transitionend', handle);
+ currentSlider.addEventListener('transitionend', handle, { once: true });
+  return () => currentSlider && currentSlider.removeEventListener('transitionend', handle);
 }, [isTransitioning, current, carouselTestimonials.length]);
 
 
@@ -1488,13 +1490,13 @@ return (
 
       <div class="flex space-x-4 w-full gap-[40px] justify-end   text-xl text-white ">
   
-  <a href="#" class="hover:text-blue-500 w-[20.97px] h-[20.97px] text-[#C0C0C0]">
+  <a href="/linkedin" class="hover:text-blue-500 w-[20.97px] h-[20.97px] text-[#C0C0C0]">
   <i class="fab fa-linkedin fa-lg"></i>
   </a>
-  <a href="#" class="hover:text-blue-400  w-[20px] h-[20px] text-[#C0C0C0]">
+  <a href="/twitter" class="hover:text-blue-400  w-[20px] h-[20px] text-[#C0C0C0]">
     <i class="fab fa-x-twitter fa-lg"></i>
   </a>
-  <a href="#" class="hover:text-red-500  w-[28px] h-[20px] text-[#C0C0C0] ">
+  <a href="/youtube" class="hover:text-red-500  w-[28px] h-[20px] text-[#C0C0C0] ">
     <i class="fab fa-youtube fa-lg"></i>
    </a></div>
 
