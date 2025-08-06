@@ -398,12 +398,10 @@ useEffect(() => {
   return () => currentSlider && currentSlider.removeEventListener('transitionend', handle);
 }, [isTransitioning, current, carouselTestimonials.length]);
 
-
   //const goToSlide = (index) => {
     //setCurrent(index);
   //};
-
-
+  
    const [offsetY, setOffsetY] = useState(0);
 
   const handleScroll = () => {
@@ -415,8 +413,6 @@ useEffect(() => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-
 
 return (
        <section className="relative w-full h-full bg-gray-50 overflow-hidden px-4 sm:px-6 lg:px-8 py-12">

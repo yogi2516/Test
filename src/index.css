@@ -29,8 +29,61 @@
   scroll-snap-stop: always;
 }
 
-/* Optional: Add these if you want to improve performance */
+
 .testimonial-slider * {
   backface-visibility: hidden;
   transform: translateZ(0);
 }
+
+.react-calendar {
+  width: 100%;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.react-calendar__tile {
+  padding: 0.75rem 0;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.react-calendar__tile--active {
+  border: 2px solid #2563eb; /* blue-600 */
+  background: white;
+  color: black;
+  font-weight: 600;
+}
+
+.react-calendar__tile:enabled:hover {
+  background: #f3f4f6; /* gray-100 */
+}
+
+.react-calendar__tile--now {
+  background: transparent;
+  font-weight: 600;
+}
+
+.react-calendar__navigation button {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Add to your global CSS or in index.css */
+.react-calendar__tile--highlight {
+  background: #005BA9;
+  color: red;
+  border-radius: 50%;
+}
+
+/* Highlighted bootcamp date */
+.highlight-date {
+  background-color: #009BDE4D !important;
+  border-radius: 6px;
+  color: #005BA9 !important;
+  font-weight: bold;
+}
+
+
