@@ -447,18 +447,19 @@ const OurContributions = () => {
           </div>
         </div>
 
-        {/* Center: Quick Links */}
-        <div className="space-y-2">
-          <h3 className="text-white font-Intter  font-normal mb-3">Quick Links</h3>
-          <ul className="text-sm text-gray-300 space-y-1">
-            <li><a className="space-y-2 text-sm  text-[#FFFFFF99]">About us</a></li>
-            <li><a className="space-y-2 text-sm  text-[#FFFFFF99]">Services</a></li>
-            <li><a className="space-y-2 text-sm  text-[#FFFFFF99]">Research & Innovation</a></li>
-            <li><a className="space-y-2 text-sm  text-[#FFFFFF99]">Happenings</a></li>
-            <li><a className="space-y-2 text-sm  text-[#FFFFFF99]">Focus Groups</a></li>
-            <li><a className="space-y-2 text-sm  text-[#FFFFFF99]">Resources</a></li>
-          </ul>
-        </div>
+       {/* Center: Quick Links */}
+<div className="space-y-2">
+  <h3 className="text-white font-Intter font-normal mb-3">Quick Links</h3>
+  <ul className="text-sm text-gray-300 space-y-1">
+    <li><a href="/about" className="space-y-2 text-sm text-[#FFFFFF99]">About us</a></li>
+    <li><a href="/services" className="space-y-2 text-sm text-[#FFFFFF99]">Services</a></li>
+    <li><a href="/research-innovation" className="space-y-2 text-sm text-[#FFFFFF99]">Research & Innovation</a></li>
+    <li><a href="/happenings" className="space-y-2 text-sm text-[#FFFFFF99]">Happenings</a></li>
+    <li><a href="/focus-groups" className="space-y-2 text-sm text-[#FFFFFF99]">Focus Groups</a></li>
+    <li><a href="/resources" className="space-y-2 text-sm text-[#FFFFFF99]">Resources</a></li>
+  </ul>
+</div>
+
 
         {/* Right: Contact Info */}
         <div className="space-y-2 text-sm text-gray-300">

@@ -187,36 +187,11 @@ const EventsSection = () => {
         Explore our journey through images & videos – See how CAiRL is shaping AI’s future!
       </p>
 
-     <div className="mt-6">
-          <button className="
-    px-6 py-[12px] 
-    rounded-full 
-    font-semibold 
-    text-white 
-    bg-[#005BA9]
-    transition-all 
-    duration-300 
-    ease-in-out 
-    shadow-none
-    text-[16px] font-['Inter']
-    cursor-pointer
-
-    hover:bg-[#0A8FED] 
-    hover:text-[white]
-    hover:translate-y-[-2px]
-    hover:rounded-full 
-    hover:shadow-[4px_4px_0_0_#005BA9]
-
-    active:bg-[#DFEFFF] 
-    active:text-[#005BA9] 
-    active:border-[4px] 
-    active:border-[#005BA9] 
-     active:shadow-none
-  ">
-      Know more
-    </button>
-        </div>
-  </div>
+      {/* Button at the bottom of the right side */}
+      <button className="bg-blue-800 text-white px-6 py-2 rounded-full hover:bg-blue-900 transition self-start">
+        Know More
+      </button>
+    </div>
   </div>
 </section>
 
