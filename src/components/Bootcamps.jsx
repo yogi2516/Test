@@ -137,7 +137,7 @@ const bootcampsData = [
 
 const pastEvents = [
   {
-    id: 1,
+   // id: 1,
     title: "AI & ML Bootcamp",
     date: "2025-08-10",
     description: "A deep dive into AI technologies",
