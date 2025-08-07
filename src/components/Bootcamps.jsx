@@ -4,10 +4,8 @@ import 'react-calendar/dist/Calendar.css';
 import { CalendarDays, Clock, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-
 const bootcampsData = [
-  
- {
+  {
     id: 1,
     title: "AI & Machine Learning Bootcamp",
     description:
@@ -154,6 +152,7 @@ const pastEvents = [
   },
 ];
 
+
 const highlightDates = bootcampsData.map((b) => new Date(b.date));
 
 const tabs = [
@@ -166,43 +165,47 @@ const tabs = [
 const isPastDate = (dateString) => {
   const today = new Date();
   const date = new Date(dateString);
-  return date < today.setHours(0, 0, 0, 0);
+  return date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
 };
 
 const Bootcamps = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
-  const [visibleCount, setVisibleCount] = useState(4); // for pagination
+  const [visibleCount, setVisibleCount] = useState(4);
   const navigate = useNavigate();
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
     const today = new Date();
-    if (date < today.setHours(0, 0, 0, 0)) {
-      setActiveTab('past');
-    } else if (date.toDateString() === today.toDateString()) {
-      setActiveTab('ongoing');
-    } else {
-      setActiveTab('upcoming');
-    }
-    setVisibleCount(4); 
-  };
+    const compareToday = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+    const clicked = new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
 
-  
+    if (clicked < compareToday) setActiveTab('past');
+    else if (clicked === compareToday) setActiveTab('ongoing');
+    else setActiveTab('upcoming');
+    setVisibleCount(4);
+  };
 
   const filteredBootcamps = useMemo(() => {
     const now = new Date();
     return bootcampsData.filter((b) => {
       const eventDate = new Date(b.date);
-      const [startTime] = b.time.split('-');
-      const eventStart = new Date(`${b.date} ${startTime.trim()}`);
+      const startParts = b.time.split('-')[0].trim();
+      let eventStart;
+      try {
+        eventStart = new Date(`${b.date} ${startParts}`);
+      } catch {
+        eventStart = eventDate;
+      }
 
       if (activeTab === 'past') return eventStart < now;
       if (activeTab === 'ongoing') {
+        const endParts = b.time.split('-')[1]?.trim() ?? '';
+        const eventEnd = endParts ? new Date(`${b.date} ${endParts}`) : eventDate;
         return (
           eventDate.toDateString() === now.toDateString() &&
           eventStart <= now &&
-          new Date(`${b.date} ${b.time.split('-')[1].trim()}`) > now
+          eventEnd > now
         );
       }
       if (activeTab === 'upcoming') return eventStart > now;
@@ -221,21 +224,17 @@ const Bootcamps = () => {
 
   const handleEnrollClick = (bootcamp) => {
     if (isPastDate(bootcamp.date)) return;
-    navigate(`/enroll/${bootcamp.id}`, { state: { bootcamp } });
+    navigate('/enroll-now', { state: { bootcamp } });
   };
 
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 3);
-  };
-  
+  const handleLoadMore = () => setVisibleCount((p) => p + 3);
+
   return (
-    
-      <>
+    <>
       <section className="px-6 py-10 md:px-12 bg-[#f9f9f9] font-nunito">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
           <div className="text-center mb-6">
-            <span className="bg-blue-100 text-[#005BA9] px-3 py-3 rounded-full font-Intter text-sm font-medium">
+            <span className="bg-blue-100 text-[#005BA9] px-3 py-2 rounded-full text-sm font-medium">
               Bootcamps
             </span>
             <h1 className="text-3xl md:text-4xl font-playfair font-semibold text-gray-800 mt-4">
@@ -243,7 +242,6 @@ const Bootcamps = () => {
             </h1>
           </div>
 
-          {/* Tabs */}
           <div className="flex flex-wrap justify-start gap-4 mb-10">
             {tabs.map(({ label, filter }) => (
               <button
@@ -251,7 +249,7 @@ const Bootcamps = () => {
                 onClick={() => {
                   setActiveTab(filter);
                   setSelectedDate(null);
-                  setVisibleCount(4); 
+                  setVisibleCount(4);
                 }}
                 className={`px-4 py-2 border rounded-full text-sm font-medium ${
                   activeTab === filter
@@ -265,7 +263,6 @@ const Bootcamps = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {/* Bootcamps */}
             <div className="md:col-span-2 space-y-6">
               {paginatedBootcamps.map((bootcamp) => (
                 <div key={bootcamp.id} className="bg-white border rounded-lg p-4 flex gap-4 shadow-sm">
@@ -273,6 +270,7 @@ const Bootcamps = () => {
                   <div className="flex-1">
                     <h2 className="text-lg font-bold text-gray-800">{bootcamp.title}</h2>
                     <p className="text-sm text-gray-600 mt-1 mb-2 line-clamp-3">{bootcamp.description}</p>
+
                     <div className="text-sm text-gray-500 space-y-1">
                       <div className="flex items-center gap-2">
                         <CalendarDays className="w-4 h-4" />
@@ -287,12 +285,14 @@ const Bootcamps = () => {
                         <span>{bootcamp.location}</span>
                       </div>
                     </div>
+
                     <div className="mt-2 flex items-center justify-between">
                       <span className="text-blue-700 font-semibold">{bootcamp.price}</span>
+
                       {!isPastDate(bootcamp.date) && (
                         <button
-                          onClick={() => handleEnrollClick('/enroll-now')}
-                          className="px-6 py-[12px] rounded-full font-semibold text-white bg-[#005BA9] hover:bg-[#0A8FED] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_0_#005BA9] active:bg-[#DFEFFF] active:text-[#005BA9] active:border-[4px] active:border-[#005BA9] active:shadow-none"
+                          onClick={() => handleEnrollClick(bootcamp)}
+                          className="px-6 py-[8px] rounded-full font-semibold text-white bg-[#005BA9] hover:bg-[#0A8FED] transition"
                         >
                           Enroll now
                         </button>
@@ -302,24 +302,23 @@ const Bootcamps = () => {
                 </div>
               ))}
 
-
-             {visibleCount < filteredBootcamps.length && (
+              {visibleCount < filteredBootcamps.length && (
                 <div className="text-center mt-4">
                   <button
                     onClick={handleLoadMore}
-                   className="px-6 py-[12px] rounded-full font-semibold text-white bg-[#005BA9] hover:bg-[#0A8FED] hover:translate-y-[-2px] hover:shadow-[4px_4px_0_0_#005BA9] active:bg-[#DFEFFF] active:text-[#005BA9] active:border-[4px] active:border-[#005BA9] active:shadow-none"
-                        >
-                          Add more
-                        </button>
+                    className="px-6 py-[10px] rounded-full font-semibold text-white bg-[#005BA9] hover:bg-[#0A8FED] transition"
+                  >
+                    Load more
+                  </button>
                 </div>
               )}
             </div>
-          {/* Calendar */}
-<div className="border rounded-lg p-4 shadow-sm bg-transparent">
- <div className="mb-4">
+
+            <div className="border rounded-lg p-4 shadow-sm bg-transparent">
+              <div className="mb-4">
                 <h3 className="text-lg font-semibold text-[#000000] mb-2">Schedule</h3>
                 <Calendar
-                  className="w-full rounded-full text-[#000000]"
+                  className="w-full"
                   onChange={handleDateChange}
                   value={selectedDate}
                   tileClassName={({ date }) =>
@@ -337,25 +336,50 @@ const Bootcamps = () => {
 
               {selectedDate && (
                 <div className="mt-4">
-                  <h4 className="text-sm text-[#000000] font-semibold">
+                  <h4 className="text-sm text-[#000000] font-semibold mb-2">
                     Selected Bootcamps: <span className="text-xs">{selectedDate.toDateString()}</span>
                   </h4>
-                  {selectedBootcamps.length > 0 ? (
-                    selectedBootcamps.map((bootcamp) => (
-                      <div key={bootcamp.id} className="mt-3 bg-gray-50 text-[#000000] border p-3 rounded text-sm">
-                        <div className="font-bold">{bootcamp.title}</div>
-                        <div className="text-gray-600 text-xs">
-                          {bootcamp.time} | {bootcamp.location}
-                        </div>
-                        <div className="text-[#0E0D1399] text-xs font-semibold mt-1">{bootcamp.price}</div>
-                        {!isPastDate(bootcamp.date) && (
-                          <button
-                          onClick={() => navigate('/enroll', { state: { bootcamp } })}
-                          className="bg-blue-700 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-800 transition text-center"
-                           >
-                                 Enroll Now
-                        </button>
 
+                  {selectedBootcamps.length > 0 ? (
+                    selectedBootcamps.map((b) => (
+                      <div key={b.id} className="mt-3 bg-gray-50 text-[#000000] border p-3 rounded text-sm">
+                        <div className="font-bold">{b.title}</div>
+                        <div className="text-gray-600 text-xs">{b.time} | {b.location}</div>
+                        <div className="text-[#0E0D1399] text-xs font-semibold mt-1">{b.price}</div>
+
+                        {!isPastDate(b.date) && (
+                          <div className="mt-2">
+                            <button
+                              onClick={() => handleEnrollClick(b)}
+                           
+          className="
+    px-6 py-[12px] 
+    rounded-full 
+    font-semibold 
+    text-white 
+    bg-[#005BA9]
+    transition-all 
+    duration-300 
+    ease-in-out 
+    shadow-none
+    text-[16px] font-['Inter']
+    cursor-pointer
+
+    hover:bg-[#0A8FED] 
+    hover:text-[white]
+    hover:translate-y-[-2px]
+    hover:rounded-full 
+    hover:shadow-[4px_4px_0_0_#005BA9]
+
+    active:bg-[#DFEFFF] 
+    active:text-[#005BA9] 
+    active:border-[4px] 
+    active:border-[#005BA9] 
+     active:shadow-none
+  ">
+      Enorll now
+    </button>
+                          </div>
                         )}
                       </div>
                     ))
@@ -438,9 +462,7 @@ const Bootcamps = () => {
           Same design for all the Capacity Building & Knowledge Empowerment
         </div>
 </section>
-
-
-
+ 
     </>
   );
 };

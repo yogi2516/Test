@@ -10,6 +10,8 @@ import ThoughtLeadership from './components/ThoughtLeadership';
 import MoUsSection from './components/MoUsSection';
 import HackathonsAndInnovationChallenges from './components/HackathonsAndInnovationChallenges';
 import StartupIncubatorsAndInnovationHubs from './components/StartupIncubatorsAndInnovationHubs';
+import Contact from './components/Contact';
+import EngageWithUs from './components/EngageWithUs';
 
 function App() {
   return (
@@ -25,9 +27,12 @@ function App() {
         <Route path="/mous" element={<MoUsSection />} />
         <Route path="/hackathons-innovation" element={<HackathonsAndInnovationChallenges />} />
         <Route path="/incubators-hubs" element={<StartupIncubatorsAndInnovationHubs />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/engage" element={<EngageWithUs />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+c

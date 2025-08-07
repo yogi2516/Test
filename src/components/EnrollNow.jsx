@@ -19,8 +19,8 @@ const EnrollNow = () => {
     quantity: "1",
   });
 
-  //const [name, setName] = useState('');
-  //const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
